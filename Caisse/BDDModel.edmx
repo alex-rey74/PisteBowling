@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bddbowlingModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="joueur">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pseudo" Type="varchar" MaxLength="45" />
+          <Property Name="prenom" Type="varchar" MaxLength="45" />
+          <Property Name="nom" Type="varchar" MaxLength="45" />
+          <Property Name="mail" Type="varchar" MaxLength="255" />
+          <Property Name="mdp" Type="varchar" MaxLength="45" />
+          <Property Name="avatar" Type="varchar" MaxLength="45" />
+          <Property Name="dateCreation" Type="datetime" Precision="0" />
+          <Property Name="DateMaj" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="partie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="datePartie" Type="datetime" Precision="0" />
+          <Property Name="nbrStrikes" Type="int" />
+          <Property Name="nbrSpares" Type="int" />
+          <Property Name="nbrRigole" Type="int" />
+          <Property Name="nbrPoints" Type="int" />
+          <Property Name="joueur_id" Type="int" Nullable="false" />
+          <Property Name="numPiste" Type="int" />
+        </EntityType>
+        <Association Name="fk_partie_joueur">
+          <End Role="joueur" Type="Self.joueur" Multiplicity="1" />
+          <End Role="partie" Type="Self.partie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="joueur">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="partie">
+              <PropertyRef Name="joueur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bddbowlingModelStoreContainer">
+          <EntitySet Name="joueur" EntityType="Self.joueur" Schema="bddbowling" store:Type="Tables" />
+          <EntitySet Name="partie" EntityType="Self.partie" Schema="bddbowling" store:Type="Tables" />
+          <AssociationSet Name="fk_partie_joueur" Association="Self.fk_partie_joueur">
+            <End Role="joueur" EntitySet="joueur" />
+            <End Role="partie" EntitySet="partie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bddbowlingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="joueur">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pseudo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="prenom" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="nom" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="mail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mdp" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="avatar" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="dateCreation" Type="DateTime" />
+          <Property Name="DateMaj" Type="DateTime" />
+          <NavigationProperty Name="partie" Relationship="Self.fk_partie_joueur" FromRole="joueur" ToRole="partie" />
+        </EntityType>
+        <EntityType Name="partie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="datePartie" Type="DateTime" />
+          <Property Name="nbrStrikes" Type="Int32" />
+          <Property Name="nbrSpares" Type="Int32" />
+          <Property Name="nbrRigole" Type="Int32" />
+          <Property Name="nbrPoints" Type="Int32" />
+          <Property Name="joueur_id" Type="Int32" Nullable="false" />
+          <Property Name="numPiste" Type="Int32" />
+          <NavigationProperty Name="joueur" Relationship="Self.fk_partie_joueur" FromRole="partie" ToRole="joueur" />
+        </EntityType>
+        <Association Name="fk_partie_joueur">
+          <End Role="joueur" Type="Self.joueur" Multiplicity="1" />
+          <End Role="partie" Type="Self.partie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="joueur">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="partie">
+              <PropertyRef Name="joueur_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bddbowlingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="joueur" EntityType="Self.joueur" />
+          <EntitySet Name="partie" EntityType="Self.partie" />
+          <AssociationSet Name="fk_partie_joueur" Association="Self.fk_partie_joueur">
+            <End Role="joueur" EntitySet="joueur" />
+            <End Role="partie" EntitySet="partie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bddbowlingModelStoreContainer" CdmEntityContainer="bddbowlingEntities">
+          <EntitySetMapping Name="joueur">
+            <EntityTypeMapping TypeName="bddbowlingModel.joueur">
+              <MappingFragment StoreEntitySet="joueur">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="pseudo" ColumnName="pseudo" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="mdp" ColumnName="mdp" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="dateCreation" ColumnName="dateCreation" />
+                <ScalarProperty Name="DateMaj" ColumnName="DateMaj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="partie">
+            <EntityTypeMapping TypeName="bddbowlingModel.partie">
+              <MappingFragment StoreEntitySet="partie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="datePartie" ColumnName="datePartie" />
+                <ScalarProperty Name="nbrStrikes" ColumnName="nbrStrikes" />
+                <ScalarProperty Name="nbrSpares" ColumnName="nbrSpares" />
+                <ScalarProperty Name="nbrRigole" ColumnName="nbrRigole" />
+                <ScalarProperty Name="nbrPoints" ColumnName="nbrPoints" />
+                <ScalarProperty Name="joueur_id" ColumnName="joueur_id" />
+                <ScalarProperty Name="numPiste" ColumnName="numPiste" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,36 @@
+﻿<Window x:Class="Caisse.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Caisse"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--LOGO-->
+        <Menu Background="#FE431B">
+
+            <MenuItem Header="Inscription" Click="MenuItem_Click"  Width="71" Height="25"/>
+            <MenuItem Header="Créer Partie" Click="MenuItem_Click1" Width="80"/>
+
+        </Menu>
+
+        <Grid Row="1" Name="Container" Background="LightGray">
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="294" VerticalAlignment="Top" Width="517"/>
+        </Grid>
+    </Grid>
+
+
+
+
+
+
+
+</Window>
